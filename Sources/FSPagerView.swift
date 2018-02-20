@@ -501,6 +501,38 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         self.collectionView.setContentOffset(contentOffset, animated: animated)
     }
     
+    /// Returns the FSPagerViewCell object by the location of the cell
+    ///
+    /// - Parameters:
+    ///   - index: The index specifying the location of the cell.
+    /// - Returns: A valid FSPagerViewCell object.
+    @objc(atIndex:)
+    open func cellForItem(at index: Int) -> FSPagerViewCell {
+        let cell = self.collectionView.cellForItem(at: IndexPath(item: index, section: self.dequeingSection))
+        guard (cell?.isKind(of: FSPagerViewCell.self))! else {
+            fatalError("Cell not exist or must be subclass of FSPagerViewCell")
+        }
+        return cell as! FSPagerViewCell
+    }
+    
+    /// Insert item at index
+    ///
+    /// - Parameters:
+    ///   - index: The index specifying the location of the cell.
+    @objc(insertAtIndex:)
+    open func insertCell(at index: Int) {
+        self.collectionView.insertItems(at: [IndexPath(item: index, section: self.dequeingSection)])
+    }
+    
+    /// Remove item at index
+    ///
+    /// - Parameters:
+    ///   - index: The index specifying the location of the cell.
+    @objc(removeAtIndex:)
+    open func removeCell(at index: Int) {
+        self.collectionView.deleteItems(at: [IndexPath(item: index, section: self.dequeingSection)])
+    }
+
     /// Returns the index of the specified cell.
     ///
     /// - Parameter cell: The cell object whose index you want.
